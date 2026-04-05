@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PumaCore VPS — Servidores Virtuales Profesionales</title>
+<link rel="icon" href="icons/1774725601759.png">
+<meta property="og:image" content="icons/1774725601759.png">
+<meta property="og:title" content="PumaCore VPS">
+<meta property="og:description" content="VPS de bots (Discord, Telegram, WhatsApp), servidores Minecraft (Bedrock, Java), con planes adaptables a tu medida y con panel en Pterodactyl incluido.">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="translations.js"></script>
+<style>
+  :root {
+    --bg: #0d0720;
+    --bg2: #100924;
+    --surface: #160d2e;
+    --border: rgba(100,80,255,.18);
+    --accent: #5b7fff;
+    --accent2: #a78bfa;
+    --accent3: #ff6b47;
+    --accent4: #ffb347;
+    --text: #f0eeff;
+    --muted: #8b7fc4;
+    --success: #22c55e;
+    --glow-blue: rgba(91,127,255,.25);
+    --glow-purple: rgba(167,139,250,.2);
+    --binance: #f3ba2f;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-x:hidden}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;width:100%;max-width:100vw}
+
+  body::before{content:'';position:fixed;inset:0;
+    background-image:
+      radial-gradient(ellipse 70% 55% at 15% -5%,rgba(91,127,255,.15) 0%,transparent 60%),
+      radial-gradient(ellipse 50% 45% at 85% 100%,rgba(255,107,71,.12) 0%,transparent 55%),
+      radial-gradient(ellipse 60% 50% at 50% 50%,rgba(167,139,250,.06) 0%,transparent 70%),
+      url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%235b7fff' fill-opacity='0.03'%3E%3Crect x='0' y='0' width='1' height='40'/%3E%3Crect x='0' y='0' width='40' height='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events:none;z-index:0}
+
+  [data-lucide]{width:22px;height:22px;stroke-width:1.8}
+
+  /* ── NAV ── */
+  header{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,7,32,.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);width:100%;overflow:hidden}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+  .logo img{width:36px;height:36px;border-radius:8px;object-fit:cover}
+  .logo-text{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--text);letter-spacing:-.3px;white-space:nowrap}
+  .logo-text span{color:var(--accent3)}
+  nav{display:flex;align-items:center;flex-wrap:nowrap;overflow:hidden;min-width:0}
+  nav a{color:var(--muted);text-decoration:none;margin-left:20px;font-size:.85rem;font-weight:500;transition:color .2s;white-space:nowrap}
+  nav a:hover{color:var(--text)}
+  .nav-cta{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff!important;padding:8px 16px;border-radius:8px;font-weight:700!important;box-shadow:0 4px 16px var(--glow-blue);white-space:nowrap;display:inline-block;margin-left:12px!important}
+  .nav-cta:hover{opacity:.9;transform:translateY(-1px)}
+  .lang-btn{background:rgba(91,127,255,.12);border:1px solid rgba(91,127,255,.3);color:var(--accent2)!important;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:.78rem;font-weight:700;margin-left:8px!important;white-space:nowrap}
+  .lang-btn:hover{background:rgba(91,127,255,.2)!important}
+
+  /* ── HERO ── */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 20px 80px;z-index:1;width:100%}
+  .hero>div{width:100%;max-width:700px}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(91,127,255,.12);border:1px solid rgba(91,127,255,.35);border-radius:999px;padding:6px 18px;font-size:.78rem;font-weight:700;color:var(--accent2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:28px;animation:fadeDown .7s ease both}
+  .hero-badge .pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--success);box-shadow:0 0 8px var(--success);animation:pulse 2s infinite;flex-shrink:0}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,8vw,4.2rem);font-weight:800;line-height:1.08;letter-spacing:-.03em;margin-bottom:24px;animation:fadeDown .8s .1s ease both;overflow-wrap:break-word;word-break:break-word}
+  h1 .grad{background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 45%,var(--accent3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .hero-sub{font-size:1.05rem;color:var(--muted);max-width:540px;margin:0 auto 40px;line-height:1.75;animation:fadeDown .8s .2s ease both;padding:0 8px}
+  .hero-btns{display:flex;flex-direction:column;gap:12px;align-items:stretch;padding:0 8px;animation:fadeDown .8s .3s ease both}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:14px 32px;border-radius:10px;font-weight:700;font-size:1rem;text-decoration:none;text-align:center;transition:transform .2s,box-shadow .2s;box-shadow:0 6px 28px var(--glow-blue)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 36px var(--glow-blue)}
+  .btn-ghost{border:1px solid var(--border);background:transparent;color:var(--text);padding:14px 32px;border-radius:10px;font-weight:600;font-size:1rem;text-decoration:none;text-align:center;transition:border-color .2s,background .2s}
+  .btn-ghost:hover{border-color:var(--accent2);background:rgba(167,139,250,.07)}
+
+  /* ── NODE PANEL ── */
+  .node-panel{position:relative;z-index:1;display:flex;justify-content:center;padding:0 20px}
+  .node-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px 32px;display:flex;flex-wrap:wrap;align-items:center;gap:24px;max-width:900px;width:100%;margin-top:-32px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 0 1px rgba(91,127,255,.08)}
+  .node-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:18px 18px 0 0;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3))}
+  .node-header{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .node-row{display:flex;align-items:center;gap:10px;flex:1;min-width:140px}
+  .node-flag{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;border:2px solid rgba(255,255,255,.15)}
+  .node-info strong{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;display:block;color:var(--text)}
+  .node-info span{color:var(--muted);font-size:.82rem}
+  .node-divider{width:1px;height:40px;background:var(--border);flex-shrink:0}
+  .node-status-row{display:flex;align-items:center;gap:10px;flex:1;min-width:180px}
+  .status-dot{width:10px;height:10px;border-radius:50%;background:var(--success);box-shadow:0 0 10px var(--success),0 0 20px rgba(34,197,94,.4);flex-shrink:0;animation:pulse 2s infinite}
+  .status-info strong{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--success);display:block}
+  .status-info span{color:var(--muted);font-size:.82rem}
+  .node-ping{background:rgba(91,127,255,.1);border:1px solid rgba(91,127,255,.2);border-radius:10px;padding:10px 18px;text-align:center;flex-shrink:0}
+  .node-ping strong{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--accent);display:block}
+  .node-ping span{color:var(--muted);font-size:.75rem}
+
+  /* ── STATS ── */
+  .stats{position:relative;z-index:1;display:flex;flex-wrap:nowrap;justify-content:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(22,13,46,.6);backdrop-filter:blur(12px);width:100%;margin-top:48px;overflow:hidden}
+  .stat-item{flex:1;min-width:0;padding:24px 12px;text-align:center;border-right:1px solid var(--border);animation:fadeUp .7s ease both}
+  .stat-item:last-child{border-right:none}
+  .stat-number{font-family:'Syne',sans-serif;font-size:clamp(1.1rem,4vw,1.8rem);font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;line-height:1;margin-bottom:6px;word-break:break-all}
+  .stat-label{color:var(--muted);font-size:clamp(.65rem,.8rem + .1vw,.8rem);font-weight:500;word-break:break-word}
+
+  /* ── SECTIONS ── */
+  section{position:relative;z-index:1;width:100%}
+  .section-inner{max-width:1100px;margin:0 auto;padding:80px 20px}
+  .section-label{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px}
+  .section-title{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,5vw,2.6rem);font-weight:800;letter-spacing:-.025em;line-height:1.15;margin-bottom:16px;overflow-wrap:break-word}
+  .section-desc{color:var(--muted);font-size:1rem;max-width:520px;line-height:1.7}
+
+  /* ── SERVICES ── */
+  #servicios{background:rgba(16,9,36,.4)}
+  .services-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:48px}
+  .svc-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:28px 24px;transition:border-color .25s,transform .25s,box-shadow .25s;position:relative;overflow:hidden}
+  .svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+  .svc-card.discord::before{background:linear-gradient(90deg,#5865f2,#7289da)}
+  .svc-card.telegram::before{background:linear-gradient(90deg,#26a5e4,#0088cc)}
+  .svc-card.whatsapp::before{background:linear-gradient(90deg,#25d366,#128c7e)}
+  .svc-card.mcjava::before{background:linear-gradient(90deg,#c17817,#f0a30a)}
+  .svc-card.mcbedrock::before{background:linear-gradient(90deg,#7bb641,#5a9e2f)}
+  .svc-card:hover{border-color:rgba(91,127,255,.4);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+  .svc-icon-row{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .svc-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+  .svc-icon img{width:52px;height:52px;object-fit:contain;border-radius:14px}
+  .svc-card h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:4px}
+  .svc-card p{color:var(--muted);font-size:.88rem;line-height:1.6;margin-bottom:14px}
+  .svc-tags{display:flex;flex-wrap:wrap;gap:6px}
+  .svc-tag{background:rgba(91,127,255,.1);border:1px solid rgba(91,127,255,.2);border-radius:6px;padding:3px 10px;font-size:.72rem;font-weight:700;color:var(--accent2);letter-spacing:.03em}
+
+  /* ── FEATURES ── */
+  .features-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:48px}
+  .feature-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;transition:border-color .25s,transform .25s,box-shadow .25s}
+  .feature-card:hover{border-color:rgba(91,127,255,.4);transform:translateY(-4px);box-shadow:0 12px 40px var(--glow-blue)}
+  .feature-icon-wrap{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;background:rgba(91,127,255,.1);border:1px solid rgba(91,127,255,.2);color:var(--accent)}
+  .feature-icon-wrap.orange{background:rgba(255,107,71,.1);border-color:rgba(255,107,71,.2);color:var(--accent3)}
+  .feature-icon-wrap [data-lucide]{width:24px;height:24px}
+  .feature-card h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:8px;color:var(--text)}
+  .feature-card p{color:var(--muted);font-size:.88rem;line-height:1.6}
+  .ptero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,107,71,.1);border:1px solid rgba(255,107,71,.3);border-radius:8px;padding:4px 10px;font-size:.72rem;font-weight:700;color:var(--accent3);letter-spacing:.04em;text-transform:uppercase;margin-top:10px}
+
+  /* ── PRICING ── */
+  #precios{background:rgba(16,9,36,.5)}
+  .pricing-header{text-align:center;margin-bottom:48px}
+  .pricing-header .section-desc{margin:0 auto}
+  .payment-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(91,127,255,.08);border:1px solid rgba(91,127,255,.22);border-radius:999px;padding:8px 20px;font-size:.85rem;font-weight:600;color:var(--accent2);margin-top:20px;flex-wrap:wrap;justify-content:center}
+  .pricing-grid{display:grid;grid-template-columns:1fr;gap:20px}
+  .plan-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px 24px;position:relative;transition:transform .3s,box-shadow .3s;overflow:hidden;width:100%}
+  .plan-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+  .plan-card.basic::before{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+  .plan-card.standard::before{background:linear-gradient(90deg,var(--accent2),var(--accent3))}
+  .plan-card.premium::before{background:linear-gradient(90deg,var(--accent3),var(--accent4))}
+  .plan-card.popular{border-color:rgba(91,127,255,.4);box-shadow:0 0 0 1px rgba(91,127,255,.15),0 20px 60px var(--glow-blue)}
+  .plan-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+  .popular-tag{position:absolute;top:16px;right:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:999px}
+  .plan-name{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:6px;display:block}
+  .plan-tagline{color:var(--muted);font-size:.85rem;margin-bottom:24px}
+  .plan-price{display:flex;align-items:baseline;gap:4px;margin-bottom:8px}
+  .plan-price .amount{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+  .plan-price .currency{font-size:1.1rem;font-weight:700;color:var(--accent)}
+  .plan-price .period{color:var(--muted);font-size:.9rem;margin-left:4px}
+  .plan-availability{font-size:.82rem;color:var(--muted);margin-bottom:24px}
+  .plan-availability strong{color:var(--text)}
+  .plan-specs{list-style:none;margin-bottom:28px;display:flex;flex-direction:column;gap:8px}
+  .plan-specs li{display:flex;align-items:center;gap:10px;font-size:.88rem}
+  .plan-specs li .check{color:var(--success);flex-shrink:0}
+  .plan-specs li .check [data-lucide]{width:16px;height:16px;stroke-width:2.5}
+  .plan-specs li span{color:var(--text);font-weight:500}
+  .plan-specs li .label{color:var(--muted);font-weight:400;margin-left:2px}
+  .btn-plan{display:block;text-align:center;padding:13px;border-radius:10px;font-weight:700;font-size:.95rem;text-decoration:none;transition:all .2s;cursor:pointer;border:none;width:100%}
+  .btn-plan.outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+  .btn-plan.outline:hover{border-color:var(--accent);background:rgba(91,127,255,.08)}
+  .btn-plan.filled{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 20px var(--glow-blue)}
+  .btn-plan.filled:hover{box-shadow:0 8px 32px var(--glow-purple);transform:translateY(-1px)}
+
+  /* ── TRUST ── */
+  .trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:48px}
+  .trust-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 16px;text-align:center;transition:border-color .2s}
+  .trust-card:hover{border-color:rgba(91,127,255,.35)}
+  .trust-icon{width:44px;height:44px;border-radius:12px;background:rgba(91,127,255,.1);border:1px solid rgba(91,127,255,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:var(--accent)}
+  .trust-icon [data-lucide]{width:22px;height:22px}
+  .trust-card h4{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:6px}
+  .trust-card p{color:var(--muted);font-size:.82rem;line-height:1.5}
+
+  /* ── PAYMENT ── */
+  .payment-section{background:linear-gradient(135deg,rgba(22,13,46,.92),rgba(16,9,36,.95));border-top:1px solid var(--border);border-bottom:1px solid var(--border);width:100%}
+  .payment-inner{max-width:1100px;margin:0 auto;padding:72px 20px}
+  .payment-methods{margin-top:28px}
+  .payment-methods-label{font-size:.75rem;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+  .payment-methods-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .pay-chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 16px;transition:border-color .2s,background .2s}
+  .pay-chip:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.2)}
+  .pay-chip-icon{width:28px;height:28px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .pay-chip-icon img{width:70%;height:70%;object-fit:contain}
+  .pay-chip span{font-size:.82rem;font-weight:700;color:var(--text);white-space:nowrap}
+  .pay-chip.mp .pay-chip-icon{background:#00b1ea}
+  .pay-chip.bnb .pay-chip-icon{background:#f3ba2f}
+  /* PayPal chip */
+  .pay-chip.paypal .pay-chip-icon{background:#003087}
+  .pay-methods-divider{width:1px;height:36px;background:var(--border);flex-shrink:0}
+  .mp-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .mp-pill{background:rgba(91,127,255,.1);border:1px solid rgba(91,127,255,.22);border-radius:999px;padding:5px 14px;font-size:.78rem;font-weight:600;color:var(--accent2)}
+  .mp-pill.binance{background:rgba(243,186,47,.1);border-color:rgba(243,186,47,.3);color:var(--binance)}
+  .mp-pill.paypal-pill{background:rgba(0,48,135,.15);border-color:rgba(0,112,210,.35);color:#4da6ff}
+  .payment-warn{color:var(--muted);font-size:.82rem;margin-top:20px;line-height:1.6}
+
+  /* ── FAQ ── */
+  .faq-list{margin-top:48px;display:flex;flex-direction:column;gap:12px}
+  .faq-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  .faq-q{width:100%;background:transparent;border:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;padding:18px 20px;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;transition:background .2s}
+  .faq-q:hover{background:rgba(91,127,255,.05)}
+  .faq-arrow{width:22px;height:22px;border-radius:50%;background:rgba(91,127,255,.15);display:flex;align-items:center;justify-content:center;transition:transform .25s;flex-shrink:0;color:var(--accent)}
+  .faq-arrow [data-lucide]{width:12px;height:12px;stroke-width:2.5}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s;color:var(--muted);font-size:.9rem;line-height:1.7;padding:0 20px}
+  .faq-item.open .faq-a{max-height:250px;padding:0 20px 18px}
+  .faq-item.open .faq-arrow{transform:rotate(180deg)}
+
+  /* ── FOOTER ── */
+  footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px 20px 32px;text-align:center;position:relative;z-index:1;width:100%}
+  .footer-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px}
+  .footer-logo img{width:32px;height:32px;border-radius:7px;object-fit:cover}
+  .footer-logo-text{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--text)}
+  .footer-logo-text span{color:var(--accent3)}
+  .footer-tagline{color:var(--muted);font-size:.875rem;margin-bottom:32px}
+  .footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px;margin-bottom:32px}
+  .footer-links a{color:var(--muted);text-decoration:none;font-size:.875rem;transition:color .2s}
+  .footer-links a:hover{color:var(--text)}
+  .footer-legal{color:var(--muted);font-size:.8rem;border-top:1px solid var(--border);padding-top:24px;line-height:1.8}
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* ── TABLET+ ── */
+  @media(min-width:640px){
+    .hero-btns{flex-direction:row;align-items:center;justify-content:center;padding:0}
+    .services-grid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+    .features-grid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+    .pricing-grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+    .trust-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+  }
+
+  /* ── MOBILE ── */
+  @media(max-width:639px){
+    header{padding:10px 12px;gap:6px}
+    .logo-text{font-size:.95rem}
+    nav a:not(.nav-cta):not(.lang-btn){display:none}
+    .nav-cta{margin-left:auto!important;font-size:.78rem;padding:6px 10px}
+    .lang-btn{font-size:.72rem;padding:5px 8px;margin-left:4px!important}
+    .stats{overflow:hidden}
+    .stat-item{min-width:0;flex:1;padding:18px 6px}
+    .stat-number{font-size:1.25rem}
+    .stat-label{font-size:.62rem}
+    .section-inner{padding:60px 16px}
+    .payment-inner{padding:48px 16px}
+    .node-card{padding:20px 16px;margin-top:-20px}
+    .node-divider{display:none}
+    .payment-methods-row{gap:8px}
+    .pay-chip{padding:8px 12px}
+    .pay-chip span{font-size:.76rem}
+    .mp-pills{gap:6px}
+    .mp-pill{font-size:.72rem;padding:4px 10px}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <a href="#" class="logo">
+    <img src="icons/1774725601759.png" alt="PumaCore Logo">
+    <span class="logo-text">PumaCore <span>VPS</span></span>
+  </a>
+  <nav>
+    <a href="#servicios" data-i18n="nav_features">Servicios</a>
+    <a href="#precios" data-i18n="nav_pricing">Precios</a>
+    <a href="#faq" data-i18n="nav_faq">FAQ</a>
+    <a href="https://discord.gg/q4m9Fa7Z5g" target="_blank" class="nav-cta" data-i18n="nav_cta">Discord</a>
+    <a href="#" class="lang-btn" onclick="toggleLanguage();return false;" data-i18n="lang_toggle">En</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-badge">
+      <span class="pulse-dot"></span>
+      <span data-i18n="hero_badge">🎁 Plan gratuito de prueba disponible</span>
+    </div>
+    <h1>Tu servidor virtual.<br><span class="grad" data-i18n-html="hero_title_grad">Potente, confiable<br>y sin complicaciones.</span></h1>
+    <p class="hero-sub" data-i18n="hero_sub">Bots, webs, Minecraft y más — con panel Pterodactyl incluido, nodo en 🇺🇸 Estados Unidos y Anti-DDoS sin costo extra.</p>
+    <div class="hero-btns">
+      <a href="#precios" class="btn-primary" data-i18n="hero_btn_primary">Ver planes y precios</a>
+      <a href="https://discord.gg/q4m9Fa7Z5g" target="_blank" class="btn-ghost" data-i18n="hero_btn_discord">Uníte al Discord · Plan GRATIS</a>
+    </div>
+  </div>
+</section>
+
+<!-- NODE STATUS -->
+<div class="node-panel">
+  <div class="node-card reveal">
+    <div>
+      <div class="node-header" data-i18n="node_label">Nodo activo</div>
+      <div class="node-row">
+        <div class="node-flag">🇺🇸</div>
+        <div class="node-info">
+          <strong data-i18n="node_location">United States</strong>
+          <span data-i18n="node_sublocation">Nodo principal · US East</span>
+        </div>
+      </div>
+    </div>
+    <div class="node-divider"></div>
+    <div class="node-status-row">
+      <div class="status-dot"></div>
+      <div class="status-info">
+        <strong data-i18n="node_status">Corriendo perfectamente</strong>
+        <span data-i18n="node_status_sub">Todos los sistemas online</span>
+      </div>
+    </div>
+    <div class="node-divider"></div>
+    <div class="node-ping">
+      <strong>99.9%</strong>
+      <span data-i18n="node_uptime">Uptime del nodo</span>
+    </div>
+    <div class="node-ping" style="background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.2)">
+      <strong style="background:linear-gradient(135deg,#22c55e,#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="node_online">Online</strong>
+      <span data-i18n="node_state">Estado actual</span>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item reveal">
+    <span class="stat-number">99.9%</span>
+    <span class="stat-label" data-i18n="stat1_label">Uptime garantizado</span>
+  </div>
+  <div class="stat-item reveal">
+    <span class="stat-number">&lt;2h</span>
+    <span class="stat-label" data-i18n="stat2_label">Tiempo de activación</span>
+  </div>
+  <div class="stat-item reveal">
+    <span class="stat-number">DDoS</span>
+    <span class="stat-label" data-i18n="stat3_label">Protección incluida</span>
+  </div>
+</div>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="section-inner">
+    <span class="section-label reveal" data-i18n="services_label">¿Qué alojamos?</span>
+    <h2 class="section-title reveal" data-i18n="services_title">Todo en un solo lugar.</h2>
+    <p class="section-desc reveal" data-i18n="services_desc">Desde bots hasta servidores de juego — PumaCore tiene el plan ideal para cada proyecto.</p>
+
+    <div class="services-grid">
+
+      <!-- Discord -->
+      <div class="svc-card discord reveal">
+        <div class="svc-icon-row">
+          <div class="svc-icon">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none"><rect width="52" height="52" rx="14" fill="#5865F2"/><path d="M35.2 18.4a21.5 21.5 0 0 0-5.3-1.6.07.07 0 0 0-.08.04c-.23.4-.48.93-.66 1.35a19.9 19.9 0 0 0-5.95 0 12.9 12.9 0 0 0-.67-1.35.08.08 0 0 0-.08-.04 21.4 21.4 0 0 0-5.3 1.6.07.07 0 0 0-.03.03C14.6 23.1 13.7 27.6 14.1 32.1c0 .02.01.04.03.05a21.7 21.7 0 0 0 6.5 3.3.08.08 0 0 0 .09-.03c.5-.68.95-1.4 1.33-2.16a.07.07 0 0 0-.04-.1 14.3 14.3 0 0 1-2.03-.97.07.07 0 0 1-.01-.12c.14-.1.27-.21.4-.32a.07.07 0 0 1 .08-.01c4.26 1.95 8.87 1.95 13.08 0a.07.07 0 0 1 .08.01c.13.1.27.22.4.32a.07.07 0 0 1-.01.12c-.65.38-1.33.7-2.03.97a.07.07 0 0 0-.04.1c.39.76.84 1.48 1.33 2.16a.08.08 0 0 0 .09.03 21.6 21.6 0 0 0 6.51-3.3.08.08 0 0 0 .03-.05c.54-5.6-.9-10.46-3.82-14.77a.06.06 0 0 0-.03-.03zM21.9 29.3c-1.28 0-2.34-1.18-2.34-2.62s1.04-2.62 2.34-2.62c1.31 0 2.36 1.19 2.34 2.62 0 1.44-1.04 2.62-2.34 2.62zm8.65 0c-1.28 0-2.33-1.18-2.33-2.62s1.03-2.62 2.33-2.62c1.31 0 2.36 1.19 2.34 2.62 0 1.44-1.03 2.62-2.34 2.62z" fill="white"/></svg>
+          </div>
+          <h3 data-i18n="svc1_title">Bots de Discord</h3>
+        </div>
+        <p data-i18n="svc1_desc">Compatibles con discord.js y discord.py. Activación automática, uptime garantizado y panel para reiniciar sin SSH.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">discord.js</span>
+          <span class="svc-tag">discord.py</span>
+        </div>
+      </div>
+
+      <!-- Telegram -->
+      <div class="svc-card telegram reveal">
+        <div class="svc-icon-row">
+          <div class="svc-icon">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none"><rect width="52" height="52" rx="14" fill="#26A5E4"/><path d="M37.8 16.2L32.6 39c-.4 1.7-1.4 2.1-2.8 1.3l-7.7-5.7-3.7 3.6c-.4.4-.8.8-1.6.8l.6-8 15.2-13.7c.6-.6-.1-.9-.9-.3L13.1 26.8l-7.6-2.4c-1.7-.5-1.7-1.6.3-2.4l29.8-11.5c1.4-.5 2.6.3 2.2 2.4-.1 0 0-.1 0 0z" fill="white"/></svg>
+          </div>
+          <h3 data-i18n="svc2_title">Bots de Telegram</h3>
+        </div>
+        <p data-i18n="svc2_desc">Alojá tu bot de Telegram sin preocuparte por caídas. Recursos dedicados para que siempre responda rápido.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">python-telegram-bot</span>
+          <span class="svc-tag">Telegraf.js</span>
+        </div>
+      </div>
+
+      <!-- WhatsApp -->
+      <div class="svc-card whatsapp reveal">
+        <div class="svc-icon-row">
+          <div class="svc-icon">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none"><rect width="52" height="52" rx="14" fill="#25D366"/><path d="M37 15.1A16.8 16.8 0 0 0 26 11c-9.3 0-16.8 7.6-16.8 16.8 0 3 .8 5.8 2.2 8.3L9 43l7.3-1.9a16.7 16.7 0 0 0 9.7 3h.1c9.3 0 16.8-7.5 16.8-16.8 0-4.5-1.7-8.7-4.9-11.9zm-11 25.8c-2.5 0-5-.7-7.2-2l-.5-.3-5.2 1.4 1.4-5-.3-.5a13.9 13.9 0 0 1-2.1-7.5c0-7.7 6.3-14 14-14 3.7 0 7.2 1.5 9.9 4.1 2.6 2.7 4 6.2 4 9.9-.1 7.8-6.3 14-14 13.9zm7.7-10.5c-.4-.2-2.4-1.2-2.8-1.3-.4-.1-.6-.2-.9.2-.3.4-1 1.3-1.3 1.5-.2.3-.5.3-.9.1-.4-.2-1.8-.7-3.4-2.1-1.3-1.1-2.1-2.5-2.4-2.9-.2-.4 0-.6.2-.8l.6-.7c.2-.2.2-.4.4-.7.1-.2.1-.5 0-.7-.2-.2-1-2.3-1.3-3.2-.3-.8-.6-.7-.9-.7h-.7c-.3 0-.7.1-1 .4-.4.4-1.4 1.4-1.4 3.3 0 1.9 1.4 3.8 1.6 4 .2.3 2.8 4.3 6.8 6 .9.4 1.7.6 2.3.8 1 .3 1.8.3 2.5.2.8-.1 2.4-1 2.7-1.9.3-.9.3-1.7.2-1.9-.1-.1-.3-.2-.7-.4z" fill="white"/></svg>
+          </div>
+          <h3 data-i18n="svc3_title">Bots de WhatsApp</h3>
+        </div>
+        <p data-i18n="svc3_desc">Corré tus bots de WhatsApp con Baileys, whatsapp-web.js u otras librerías sin límites de mensajes.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Baileys</span>
+          <span class="svc-tag">whatsapp-web.js</span>
+        </div>
+      </div>
+
+      <!-- Minecraft Java -->
+      <div class="svc-card mcjava reveal">
+        <div class="svc-icon-row">
+          <div class="svc-icon">
+            <img src="icons/mc-ico.png" alt="Minecraft Java">
+          </div>
+          <h3 data-i18n="svc4_title">Minecraft Java</h3>
+        </div>
+        <p data-i18n="svc4_desc">Servidores de Minecraft Java con panel Pterodactyl para gestionar tu mundo, plugins y consola fácilmente.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Java Edition</span>
+        </div>
+      </div>
+
+      <!-- Minecraft Bedrock -->
+      <div class="svc-card mcbedrock reveal">
+        <div class="svc-icon-row">
+          <div class="svc-icon">
+            <img src="icons/mc-ico.png" alt="Minecraft Bedrock">
+          </div>
+          <h3 data-i18n="svc5_title">Minecraft Bedrock</h3>
+        </div>
+        <p data-i18n="svc5_desc">Servidores Bedrock para jugar desde móvil, consola o PC con panel Pterodactyl incluido.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Bedrock Edition</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CARACTERÍSTICAS -->
+<section id="caracteristicas">
+  <div class="section-inner">
+    <span class="section-label reveal" data-i18n="feat_label">¿Por qué elegirnos?</span>
+    <h2 class="section-title reveal" data-i18n-html="feat_title">Todo lo que necesitás,<br>sin nada de más.</h2>
+    <p class="section-desc reveal" data-i18n="feat_desc">Cada plan incluye infraestructura robusta pensada para que tu proyecto esté siempre en línea.</p>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon-wrap orange"><i data-lucide="layout-dashboard"></i></div>
+        <h3 data-i18n="feat1_title">Panel Pterodactyl</h3>
+        <p data-i18n="feat1_desc">Administrá tu servidor desde un panel web moderno. Reiniciá, gestioná archivos y monitoreá sin tocar la terminal.</p>
+        <div class="ptero-badge" data-i18n="feat1_badge">✦ Incluido en todos los planes</div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon-wrap"><i data-lucide="shield"></i></div>
+        <h3 data-i18n="feat2_title">Protección Anti-DDoS</h3>
+        <p data-i18n="feat2_desc">Mitigación automática de ataques sin costo adicional. Tu servidor permanece online sin importar qué.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon-wrap"><i data-lucide="cpu"></i></div>
+        <h3 data-i18n="feat3_title">Recursos dedicados</h3>
+        <p data-i18n="feat3_desc">RAM y CPU reservados exclusivamente para vos. Sin vecinos que afecten tu rendimiento.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon-wrap"><i data-lucide="zap"></i></div>
+        <h3 data-i18n="feat4_title">Activación rápida</h3>
+        <p data-i18n="feat4_desc">Tu servidor está listo en menos de 2 horas desde la confirmación del pago.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon-wrap"><i data-lucide="bar-chart-2"></i></div>
+        <h3 data-i18n="feat5_title">Monitoreo en tiempo real</h3>
+        <p data-i18n="feat5_desc">Visualizá el uso de recursos. Detectá picos de tráfico antes de que sean un problema.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon-wrap"><i data-lucide="message-circle"></i></div>
+        <h3 data-i18n="feat6_title">Soporte por Discord</h3>
+        <p data-i18n="feat6_desc">Ante cualquier duda escribinos en nuestro Discord. Respondemos lo antes posible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRECIOS -->
+<section id="precios">
+  <div class="section-inner">
+    <div class="pricing-header">
+      <span class="section-label reveal" data-i18n="pricing_label">Planes y precios</span>
+      <h2 class="section-title reveal" data-i18n-html="pricing_title">Elegí el plan que se adapta<br>a tu proyecto</h2>
+      <p class="section-desc reveal" data-i18n="pricing_desc">Precios fijos en dólares. Sin cargos ocultos, sin sorpresas al final del mes.</p>
+      <div class="payment-badge reveal">
+        <i data-lucide="credit-card" style="width:16px;height:16px"></i>
+        <span>MercadoPago · Binance Pay · PayPal</span>
+      </div>
+    </div>
+    <div class="pricing-grid">
+
+      <!-- BÁSICO -->
+      <div class="plan-card basic reveal">
+        <span class="plan-name" data-i18n="plan1_name">Básico</span>
+        <div class="plan-tagline" data-i18n="plan1_tagline">Ideal para bots pequeños y proyectos personales</div>
+        <div class="plan-price">
+          <span class="currency">USD</span><span class="amount">0</span><span class="period">/mes</span>
+        </div>
+        <div class="plan-availability"><span data-i18n="plan1_avail">Disponibilidad:</span> <strong data-i18n="plan1_avail_n">15 servidores</strong></div>
+        <ul class="plan-specs">
+          <li><span class="check"><i data-lucide="check"></i></span><span>512 MB</span><span class="label" data-i18n="spec_ram">de RAM</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>50%</span><span class="label" data-i18n="spec_cpu">de CPU</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>3.000 MB</span><span class="label" data-i18n="spec_disk">de disco SSD</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span data-i18n="spec_bandwidth">Ancho de banda</span><span class="label" data-i18n="spec_bandwidth2">compartido</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span data-i18n="spec_ddos">Anti-DDoS</span><span class="label" data-i18n="spec_ddos2">incluido</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span data-i18n="spec_ptero">Panel Pterodactyl</span><span class="label" data-i18n="spec_ptero2">incluido</span></li>
+        </ul>
+        <a href="https://discord.gg/q4m9Fa7Z5g" target="_blank" class="btn-plan outline" data-i18n="plan1_btn">Obtener gratis</a>
+      </div>
+
+      <!-- ESTÁNDAR -->
+      <div class="plan-card standard popular reveal">
+        <div class="popular-tag" data-i18n="plan2_tag">⚡ Más popular</div>
+        <span class="plan-name" data-i18n="plan2_name">Estándar</span>
+        <div class="plan-tagline" data-i18n="plan2_tagline">Para aplicaciones con mayor demanda de recursos</div>
+        <div class="plan-price">
+          <span class="currency">USD</span><span class="amount">3</span><span class="period">/mes</span>
+        </div>
+        <div class="plan-availability"><span data-i18n="plan2_avail">Disponibilidad:</span> <strong data-i18n="plan2_avail_n">8 servidores</strong></div>
+        <ul class="plan-specs">
+          <li><span class="check"><i data-lucide="check"></i></span><span>1.024 MB</span><span class="label" data-i18n="spec_ram">de RAM</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>75%</span><span class="label" data-i18n="spec_cpu">de CPU</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>6.000 MB</span><span class="label" data-i18n="spec_disk">de disco SSD</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span data-i18n="spec_bandwidth">Ancho de banda</span><span class="label" data-i18n="spec_bandwidth2">compartido</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span data-i18n="spec_ddos">Anti-DDoS</span><span class="label" data-i18n="spec_ddos2">incluido</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span data-i18n="spec_ptero">Panel Pterodactyl</span><span class="label" data-i18n="spec_ptero2">incluido</span></li>
+        </ul>
+        <a href="https://discord.gg/q4m9Fa7Z5g" target="_blank" class="btn-plan filled" data-i18n="plan2_btn">Contratar Estándar</a>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="plan-card premium reveal">
+        <div class="popular-tag" style="background:linear-gradient(135deg,var(--accent3),var(--accent4))" data-i18n="plan3_tag">💎 Máximo rendimiento</div>
+        <span class="plan-name" data-i18n="plan3_name">Premium</span>
+        <div class="plan-tagline" data-i18n="plan3_tagline">Para proyectos exigentes con alta demanda</div>
+        <div class="plan-price">
+          <span class="currency">USD</span><span class="amount">5</span><span class="period">/mes</span>
+        </div>
+        <div class="plan-availability"><span data-i18n="plan3_avail">Disponibilidad:</span> <strong data-i18n="plan3_avail_n">2 servidores</strong></div>
+        <ul class="plan-specs">
+          <li><span class="check"><i data-lucide="check"></i></span><span>2.048 MB</span><span class="label" data-i18n="spec_ram">de RAM</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>150%</span><span class="label" data-i18n="spec_cpu">de CPU</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>12.000 MB</span><span class="label" data-i18n="spec_disk">de disco SSD</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span data-i18n="spec_bandwidth">Ancho de banda</span><span class="label" data-i18n="spec_bandwidth2">compartido</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span data-i18n="spec_ddos">Anti-DDoS</span><span class="label" data-i18n="spec_ddos2">incluido</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span data-i18n="spec_ptero">Panel Pterodactyl</span><span class="label" data-i18n="spec_ptero2">incluido</span></li>
+        </ul>
+        <a href="https://discord.gg/q4m9Fa7Z5g" target="_blank" class="btn-plan outline" data-i18n="plan3_btn">Contratar Premium</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GARANTÍAS -->
+<section id="confianza">
+  <div class="section-inner">
+    <span class="section-label reveal" data-i18n="trust_label">Garantías</span>
+    <h2 class="section-title reveal" data-i18n="trust_title">Tu tranquilidad, nuestra prioridad</h2>
+    <div class="trust-grid">
+      <div class="trust-card reveal"><div class="trust-icon"><i data-lucide="x-circle"></i></div><h4 data-i18n="trust1_title">Sin permanencia</h4><p data-i18n="trust1_desc">Cancelás cuando quieras. Sin penalidades ni contratos mínimos.</p></div>
+      <div class="trust-card reveal"><div class="trust-icon"><i data-lucide="lock"></i></div><h4 data-i18n="trust2_title">Pago seguro</h4><p data-i18n="trust2_desc">MercadoPago, Binance Pay y PayPal para mayor comodidad.</p></div>
+      <div class="trust-card reveal"><div class="trust-icon"><i data-lucide="activity"></i></div><h4 data-i18n="trust3_title">99.9% de uptime</h4><p data-i18n="trust3_desc">Infraestructura redundante para que tu servicio esté siempre disponible.</p></div>
+      <div class="trust-card reveal"><div class="trust-icon"><i data-lucide="message-square"></i></div><h4 data-i18n="trust4_title">Soporte en español</h4><p data-i18n="trust4_desc">Soporte local que habla tu idioma y entiende tu contexto.</p></div>
+      <div class="trust-card reveal"><div class="trust-icon"><i data-lucide="monitor"></i></div><h4 data-i18n="trust5_title">Panel incluido</h4><p data-i18n="trust5_desc">Pterodactyl sin costo extra. Gestioná todo desde el navegador.</p></div>
+      <div class="trust-card reveal"><div class="trust-icon"><i data-lucide="refresh-cw"></i></div><h4 data-i18n="trust6_title">Renovación simple</h4><p data-i18n="trust6_desc">Renovás mes a mes. Sin sorpresas ni cobros automáticos.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGO -->
+<div class="payment-section">
+  <div class="payment-inner">
+    <span class="section-label" data-i18n="payment_label">Métodos de pago</span>
+    <h2 class="section-title" style="max-width:460px;margin-top:8px" data-i18n-html="payment_title">Pagá como más<br>te convenga</h2>
+    <p style="color:var(--muted);line-height:1.7;margin:16px 0 0">
+      Aceptamos <strong style="color:var(--text)">MercadoPago Argentina</strong> para pagos locales, <strong style="color:#f3ba2f">Binance Pay</strong> para cripto, y <strong style="color:#4da6ff">PayPal</strong> para compras desde el exterior.
+    </p>
+
+    <div class="payment-methods">
+      <div class="payment-methods-label" data-i18n="payment_secure">Pagos seguros con</div>
+      <div class="payment-methods-row">
+
+        <!-- MercadoPago -->
+        <div class="pay-chip mp">
+          <div class="pay-chip-icon">
+            <img src="icons/mp.png" alt="MercadoPago">
+          </div>
+          <span>MercadoPago</span>
+        </div>
+
+        <div class="pay-methods-divider"></div>
+
+        <!-- Binance Pay -->
+        <div class="pay-chip bnb">
+          <div class="pay-chip-icon">
+            <img src="icons/binancepay.png" alt="Binance Pay">
+          </div>
+          <span>Binance Pay</span>
+        </div>
+
+        <div class="pay-methods-divider"></div>
+
+        <!-- USDT -->
+        <div class="pay-chip" style="border-color:rgba(38,161,123,.3)">
+          <div class="pay-chip-icon" style="background:#26a17b">
+            <img src="icons/usdt.png" alt="USDT">
+          </div>
+          <span>USDT</span>
+        </div>
+
+        <div class="pay-methods-divider"></div>
+
+        <!-- PayPal -->
+        <div class="pay-chip paypal">
+          <div class="pay-chip-icon">
+            <img src="icons/paypal.png" alt="PayPal">
+          </div>
+          <span>PayPal</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="mp-pills">
+      <span class="mp-pill" data-i18n="pill1">💳 Tarjetas de crédito</span>
+      <span class="mp-pill" data-i18n="pill2">🏧 Débito</span>
+      <span class="mp-pill" data-i18n="pill3">💵 Efectivo</span>
+      <span class="mp-pill" data-i18n="pill4">📱 Saldo MP</span>
+      <span class="mp-pill binance" data-i18n="pill5">🟡 Binance Pay</span>
+      <span class="mp-pill binance" data-i18n="pill6">💱 Cripto (USDT/BNB)</span>
+      <span class="mp-pill paypal-pill">🔵 PayPal</span>
+    </div>
+    <p class="payment-warn" data-i18n-html="payment_warn">⚠️ <strong>Atención:</strong> No aceptamos otros métodos de pago.</p>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-inner">
+    <span class="section-label reveal" data-i18n="faq_label">Preguntas frecuentes</span>
+    <h2 class="section-title reveal" data-i18n="faq_title">Todo lo que necesitás saber</h2>
+    <div class="faq-list reveal">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span data-i18n="faq1_q">¿Qué es el panel Pterodactyl?</span>
+          <span class="faq-arrow"><i data-lucide="chevron-down"></i></span>
+        </button>
+        <div class="faq-a" data-i18n="faq1_a">Pterodactyl es un panel de administración web open source que te permite gestionar tu servidor desde el navegador.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span data-i18n="faq2_q">¿Qué tipo de servidores puedo alojar?</span>
+          <span class="faq-arrow"><i data-lucide="chevron-down"></i></span>
+        </button>
+        <div class="faq-a" data-i18n="faq2_a">Podés alojar bots de Discord, Telegram, WhatsApp, y servidores de Minecraft Java y Bedrock.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span data-i18n="faq3_q">¿Cómo me entregan el servidor una vez que pago?</span>
+          <span class="faq-arrow"><i data-lucide="chevron-down"></i></span>
+        </button>
+        <div class="faq-a" data-i18n="faq3_a">Luego de confirmar el pago te enviamos los datos de acceso al panel Pterodactyl por Discord en un máximo de 2 horas hábiles.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span data-i18n="faq4_q">¿Puedo cambiar de plan si mi proyecto crece?</span>
+          <span class="faq-arrow"><i data-lucide="chevron-down"></i></span>
+        </button>
+        <div class="faq-a" data-i18n="faq4_a">Sí. Podés solicitar un upgrade en cualquier momento sin pérdida de datos.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span data-i18n="faq5_q">¿Qué métodos de pago aceptan?</span>
+          <span class="faq-arrow"><i data-lucide="chevron-down"></i></span>
+        </button>
+        <div class="faq-a">Aceptamos MercadoPago Argentina, Binance Pay (USDT/BNB) y PayPal. No procesamos otros métodos.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span data-i18n="faq6_q">¿Puedo cancelar cuando quiera?</span>
+          <span class="faq-arrow"><i data-lucide="chevron-down"></i></span>
+        </button>
+        <div class="faq-a" data-i18n="faq6_a">Totalmente. Sin contratos de permanencia. Avisanos antes del próximo vencimiento y listo.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="icons/1774725601759.png" alt="PumaCore Logo">
+    <span class="footer-logo-text">PumaCore <span>VPS</span></span>
+  </div>
+  <p class="footer-tagline" data-i18n="footer_tagline">Servidores virtuales para proyectos argentinos y del exterior</p>
+  <div class="footer-links">
+    <a href="#servicios" data-i18n="footer_link1">Servicios</a>
+    <a href="#precios" data-i18n="footer_link2">Precios</a>
+    <a href="#faq" data-i18n="footer_link3">Preguntas frecuentes</a>
+    <a href="https://discord.gg/q4m9Fa7Z5g" target="_blank" data-i18n="footer_link4">💬 Discord</a>
+    <a href="#" data-i18n="footer_link5">Términos de servicio</a>
+  </div>
+  <div class="footer-legal">
+    <p>Pagos mediante <strong>MercadoPago Argentina</strong>, <strong style="color:#f3ba2f">Binance Pay</strong> y <strong style="color:#4da6ff">PayPal</strong>. No aceptamos otros métodos.</p>
+    <p style="margin-top:8px" data-i18n="footer_legal2">© 2026 PumaCore VPS — Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<script>
+  lucide.createIcons();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    applyTranslations();
+    lucide.createIcons();
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = `${(i % 4) * 0.08}s`;
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  window.toggleLanguage = function() {
+    currentLang = currentLang === 'es' ? 'en' : 'es';
+    applyTranslations();
+    lucide.createIcons();
+  };
+</script>
+</body>
+</html>
